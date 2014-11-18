@@ -38,12 +38,10 @@ def getpath():
 
     """
     message = "{}{}".format(struct.pack("I", len(usertext)), usertext)
-    for res in socket.getaddrinfo("localhost", 8080, 0, socket.SOCK_STREAM):
-        af, socktype, proto, canonname, sa = res
-        sock = socket.socket(af, socktype, proto)
-        ret = sock.connect(sa)
-        sock.send(message)
-        resp = sock.recv(100)
-        sock.close()
-        return jsonify({'guess': resp})
+    sock = socket.socket(socket.AF_UNIX)
+    ret = sock.connect("/var/run/bays2.socket")
+    sock.send(message)
+    resp = sock.recv(100)
+    sock.close()
+    return jsonify({'guess': resp})
 
