@@ -1,18 +1,16 @@
-from gevent import monkey
 from . import main
-import requests
 import json
 import urllib2
-import struct
-import greenlet
+import gevent.queue as queue
 import gevent.socket as socket
 from flask import render_template, jsonify, request, abort
+from sock_serv_client import ConnPool
+
+pool = ConnPool(queue.Queue, socket, "/var/run/bays.socket", 50)
 
 import shortestpath
 import musichelp
 import os
-
-monkey.patch_all()
 
 @main.route("/chart")
 def chart():
@@ -30,20 +28,8 @@ def greencheck():
 @main.route("/getguess")
 def getpath():
     usertext = request.args.get('usertext')
-    """
-    header = {'Content-Type': 'application/x-www-form-urlencoded'}
-    fastcgi_req = urllib2.Request("http://localhost:8080", usertext, header)
-    response = urllib2.urlopen(fastcgi_req)
-    return jsonify({'guess': response.read()})
-
-    """
-    message = "{}{}".format(struct.pack("I", len(usertext)), usertext)
-    for res in socket.getaddrinfo("localhost", 8080, 0, socket.SOCK_STREAM):
-        af, socktype, proto, canonname, sa = res
-        sock = socket.socket(af, socktype, proto)
-        ret = sock.connect(sa)
-        sock.send(message)
-        resp = sock.recv(100)
-        sock.close()
-        return jsonify({'guess': resp})
-
+    try:
+        response = pool.send_recv(usertext)
+    except Exception, e:
+        return jsonify({'error': 'error'})
+    return jsonify({'guess': response})

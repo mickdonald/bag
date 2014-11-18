@@ -1,5 +1,4 @@
-from flask import Flask, g
-from inspect import getmembers, isfunction
+from flask import Flask
 
 app = Flask(__name__)
 
