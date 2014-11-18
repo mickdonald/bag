@@ -1,7 +1,12 @@
 from . import main
 import json
 import urllib2
+import gevent.queue as queue
+import gevent.socket as socket
 from flask import render_template, jsonify, request, abort
+from sock_serv_client import ConnPool
+
+pool = ConnPool(queue.Queue, socket, "/var/run/bays.socket", 50)
 
 import shortestpath
 import musichelp
@@ -17,8 +22,9 @@ def default():
 
 @main.route("/getguess")
 def getpath():
-    usertext = '_'.join(request.args.get('usertext').split('\s'))
-    header = {'Content-Type': 'application/x-www-form-urlencoded'}
-    fastcgi_req = urllib2.Request("http://localhost:8080", usertext, header)
-    response = urllib2.urlopen(fastcgi_req)
-    return jsonify({'guess': response.read()})
+    usertext = request.args.get('usertext')
+    try:
+        response = pool.send_recv(usertext)
+    except Exception, e:
+        return jsonify({'error': 'error'})
+    return jsonify({'guess': response})
