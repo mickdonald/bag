@@ -1,0 +1,83 @@
+@font-face {
+    font-family: roboto;
+    src: url("fonts/Roboto-Regular.ttf");
+}
+
+body {
+    color: #0B4D18; 
+    font-family: roboto;
+    height:100%;
+    background-color: rgb(225, 245, 230);
+} 
+
+#usertext {
+    margin-right: 25%;
+    margin-left: 25%;
+    width: 50%;
+    height: 150px;
+}
+
+#guess {
+    margin-top: 2%;
+    margin-left: 67%;
+    width: 8%;
+    font-size: 1.8vw;
+}
+
+.btn {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0px;
+    font-family: Arial;
+    color: rgb(225, 245, 230);
+    font-size: 20px;
+    background-color: #0B4D18; 
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #2B6D38; 
+    text-decoration: none;
+}
+
+#result {
+    margin-top: 4%;
+    font-size: 250%;
+    text-align: center;
+}
+
+#warning {
+    margin-top: 5%;
+    margin-left: 25%;
+    margin-bottom: 0%;
+}
+
+#countdown {
+    margin-top: 0%;
+    margin-left: 25%;
+}
+
+h1 {
+    font-size: 400%;
+    text-align: center;
+}
+
+
+#chart {
+    width: 100%;
+}
+
+
+#chartDiv {
+    margin-left: 5%;
+    width: 90%;
+    height: 550px;
+}
+
+.note {
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+}

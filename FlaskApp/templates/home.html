@@ -1,0 +1,29 @@
+<html>
+</head>
+
+<title>
+bagofwords
+</title>
+
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bag.js') }}"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src = "{{ url_for('static', filename='js/chart.js') }}"></script>
+
+</head>
+<body>
+<h1>bagofwords (beta)</h1>
+<p id="warning">&nbsp;</p>
+<textarea id="usertext" name="usertext"></textarea>
+<p id="countdown">characters left: <span id="remaining">1000</span></p>
+<a id="guess" class="btn">guess</a>
+<p id="result">the guess</p>
+<div id="chartDiv"></div>
+<p class="note">Note that while this classifier could likely be improved, the performance of any classifier on this data is inherently limited, because the class/document relationship is much weaker here than it would be in other document classification scenarios.  There is nothing keeping someone from talking about watercolors in a thread in r/guns, for example.</p>
+
+<p class="note">Interestingly, while stop-word removal significantly improves accuracy, an attempt at integrating the Porter de-stemming algorithm had a (small) negative effect.</p>
+</body>
+</html>
