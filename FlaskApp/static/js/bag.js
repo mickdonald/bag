@@ -28,7 +28,14 @@ function typing(){
 function getGuess(){
     fetch();
     if(data.usertext.length <= constant.maxlen){
-        $.get("/getguess", {usertext: data.usertext})
+        var method;
+        if(data.usertext.length <= constant.GETmax){
+            method = $.get;
+        }
+        else{
+            method = $.post;
+        }
+        method("/getguess", {usertext: data.usertext})
             .done(function(result){
                 console.log(result);
                 data.guesstext = result.guess;
@@ -68,7 +75,8 @@ function update(){
         
 
 var constant = {
-    maxlen: 1000,
+    GETmax: 1000,
+    maxlen: 4000,
     minlen: 50
 };
 
