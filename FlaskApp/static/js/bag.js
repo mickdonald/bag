@@ -63,7 +63,7 @@ function hideCheckLength(){
 
 function update(){
     var result;
-    if(data.guesstext.length){
+    if(data.guesstext){
         result = "r/" + data.guesstext;
     }
     else{

@@ -4,7 +4,7 @@ import struct
 class ConnPool:
 
     int_size = struct.calcsize('i')
-    def __init__(self, q_cls, sock_mod, sock_path, n, min_size=None):
+    def __init__(self, q_cls, sock_mod, sock_path, n, max_len, min_size=None):
         q = q_cls()
         count = 0
         for i in range(n):
@@ -20,9 +20,13 @@ class ConnPool:
         if min_size and count < min_size:
             raise Exception("not enough connections")
         self.q = q
+        self.max_len = max_len
 
     def send_recv(self, message):
-        proto = "{}{}".format(struct.pack("I", len(message)), message)
+        leng = len(message)
+        if leng > self.max_len:
+            raise Exception("content too long")
+        proto = "{}{}".format(struct.pack("I", leng), message)
         sock = self.q.get()
         sock.send(proto)
         res_len, = struct.unpack('i', sock.recv(self.int_size))

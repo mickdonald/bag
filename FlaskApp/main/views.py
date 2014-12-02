@@ -6,7 +6,7 @@ import gevent.socket as socket
 from flask import render_template, jsonify, request, abort
 from sock_serv_client import ConnPool
 
-pool = ConnPool(queue.Queue, socket, "/var/run/bays.socket", 5)
+pool = ConnPool(queue.Queue, socket, "/var/run/bays.socket", 5, 4005)
 
 import shortestpath
 import musichelp
