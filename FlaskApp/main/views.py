@@ -3,10 +3,12 @@ import json
 import urllib2
 import gevent.queue as queue
 import gevent.socket as socket
+#import socket
+#import Queue as queue
 from flask import render_template, jsonify, request, abort
 from sock_serv_client import ConnPool
 
-pool = ConnPool(queue.Queue, socket, "/var/run/bays.socket", 5, 4005)
+pool = ConnPool(queue.Queue, socket, "/var/run/bays.socket", 5, 4005, min_size = 5)
 
 import shortestpath
 import musichelp
@@ -25,7 +27,7 @@ def greencheck():
     return requests.get('http://python.org').content
     #return str(greenlet.getcurrent())
 
-@main.route("/getguess", methods=['GET', 'POST']
+@main.route("/getguess", methods=['GET', 'POST'])
 def getguess():
     if request.method == 'GET':
         usertext = request.args.get('usertext')

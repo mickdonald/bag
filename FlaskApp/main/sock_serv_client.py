@@ -30,7 +30,8 @@ class ConnPool:
         sock = self.q.get()
         sock.send(proto)
         res_len, = struct.unpack('i', sock.recv(self.int_size))
-        res = sock.recv(res_len)
+        if res_len: res = sock.recv(res_len)
+        else: res = ""
         self.q.put(sock)
         return res
     
